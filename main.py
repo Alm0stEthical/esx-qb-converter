@@ -6,7 +6,6 @@ from tkinter import messagebox, filedialog
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("green")
 
-
 def load_conversion_patterns():
     patterns = [
         # Client-side patterns
@@ -28,7 +27,11 @@ def load_conversion_patterns():
         ("ESX.Game.SetVehicleProperties", "QBCore.Functions.SetVehicleProperties"),
         ("ESX.Game.SpawnVehicle", "QBCore.Functions.SpawnVehicle"),
         ("ESX.Game.Utils.DrawText3D", "QBCore.Functions.DrawText3D"),
-        # Server-side patterns
+        ("ESX.ShowInventory","QBCore:Inventory"),
+        ("ESX.Game.GetVehicleProperties","QBCore.Functions.GetVehicleProperties"),
+        ("ESX.Game.GetVehicleInDirection ","QBCore.Functions.GetVehicleInDirection"),
+        ("ESX.Game.SetVehicleDoorsLocked ","QBCore.Functions.SetVehicleDoorsLocked"),
+        # Server-side patterns 
         ("ESX.GetPlayerFromId", "QBCore.Functions.GetPlayer"),
         ("ESX.GetPlayerFromIdentifier", "QBCore.Functions.GetPlayerByCitizenId"),
         ("ESX.GetPlayers", "QBCore.Functions.GetPlayers"),
@@ -43,6 +46,14 @@ def load_conversion_patterns():
         ("xPlayer.setMoney", "xPlayer.Functions.SetMoney"),
         ("xPlayer.showHelpNotification", "TriggerClientEvent('QBCore:Notify')"),
         ("xPlayer.showNotification", "TriggerClientEvent('QBCore:Notify')"),
+        ("ESX.SavePlayers", "QBCore.Functions.SavePlayers"),
+        ("ESX.GetPlayerFromCoords", "QBCore.Functions.GetPlayerFromCoords"),
+        ("xPlayer.getAccountMoney", "xPlayer.Functions.GetMoney"),
+        ("xPlayer.addMoney", "xPlayer.Functions.AddMoney"),
+        ("xPlayer.removeMoney", "xPlayer.Functions.RemoveMoney"),
+        ("ESX.RegisterCommand", "QBCore.Commands.Add"),
+        ("esx:spawnVehicle", "QBCore:Command:SpawnVehicle"),
+        ("esx:setAccountMoney", "QBCore:Server:SetMoney"),
         # Events
         ("esx:getSharedObject", "QBCore:GetObject"),
         ("esx:setJob", "QBCore:Client:OnJobUpdate"),
@@ -57,6 +68,31 @@ def load_conversion_patterns():
         ("ESX.Game.GetPedMugshot", "RegisterPedheadshot"),
         ("ESX.Game.SpawnObject", "CreateObject"),
         ("ESX.Game.Teleport", "SetEntityCoords and SetEntityHeading"),
+        #ghmatti to oxmysql
+        ("ghmattimysql:execute('UPDATE ", "oxmysql:execute('UPDATE "),
+        ("ghmattimysql:execute('DELETE ", "oxmysql:execute('DELETE "),
+        ("ghmattimysql:execute('SELECT ", "oxmysql:fetch('SELECT "),
+        ("['ghmattimysql']:execute('UPDATE ", ".oxmysql:execute('UPDATE "),
+        ("['ghmattimysql']:execute('DELETE ", ".oxmysql:execute('DELETE "),
+        ("['ghmattimysql']:execute('SELECT ", ".oxmysql:fetch('SELECT "),
+        ("['ghmattimysql']:execute('INSERT ", ".oxmysql:insert('INSERT "),
+        #SQL EXPORT
+        ("exports.ghmattimysql.execute", "exports.oxmysql:execute"),
+        ("exports.ghmattimysql.executeSync", "exports.oxmysql:executeSync"),
+        ("exports.ghmattimysql.scalar", "exports.oxmysql:scalar"),
+        ("exports.ghmattimysql.scalarSync", "exports.oxmysql:scalarSync"),
+        ("MySQL.Async.execute", "exports.oxmysql:execute"),
+        ("MySQL.Async.fetchAll", "exports.oxmysql:execute"),
+        ("MySQL.Sync.fetchAll", "exports.oxmysql:executeSync"),
+        ("MySQL.Async.fetchScalar", "exports.oxmysql:scalar"),
+        ("MySQL.Async.insert", "exports.oxmysql:insert"),
+        #Other
+        ("xPlayer.getWeight", "xPlayer.Player.GetTotalWeight"),
+        ("xPlayer.hasWeapon", "xPlayer.Functions.GetItemByName"),
+        ("xPlayer.hasWeaponComponent", "xPlayer.Functions.GetItemByName"),
+        ("xPlayer.kick", "xPlayer.Functions.Kick"),
+        ("xPlayer.removeAccountMoney", "xPlayer.Functions.RemoveMoney"),
+
     ]
     return patterns + [(b, a) for a, b in patterns]
 
@@ -118,7 +154,7 @@ def process_folder(folder_path, patterns, direction, output_text):
 class ConverterApp(ctk.CTk):
     def __init__(self):
         super().__init__()
-        self.title("ESX/QB-Core Converter by dFuZe")
+        self.title("ESX/QB-Core Converter by dFuZe & densuz")
         self.geometry("600x400")
         self.patterns = load_conversion_patterns()
         self.create_widgets()
